@@ -1,26 +1,25 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@theme {
+  --color-accent-yellow: #FACC15;
+  --color-card: #1F2937;
+  --color-border: #374151;
+  --color-input: #374151;
+  --color-team-a: #F97316;
+  --color-team-b: #EC4899;
+  --color-muted-foreground: #9CA3AF;
+  --color-secondary: #374151;
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  --animate-shimmer: shimmer 2s infinite;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  @keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
   }
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: #0a0a0a; /* Dark background */
+  color: #ededed; /* Light text for dark background */
+  font-family: var(--font-geist-sans); /* Apply Geist Sans font */
 }
