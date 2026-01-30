@@ -14,17 +14,24 @@ interface BattleArenaProps {
   numRounds: number;
   onResetBattle: () => void;
   judgeNames: string[];
+  eventTitle: string;
+  eventSubtitle: string;
+  battleType: string;
+  bgColor: string;
+  bgImage: string | null;
+  initialTeamAImage: string | null;
+  initialTeamBImage: string | null;
 }
 
-const BattleArena: React.FC<BattleArenaProps> = ({ redSide, blueSide, numJudges, numRounds, onResetBattle, judgeNames }) => {
+const BattleArena: React.FC<BattleArenaProps> = ({ redSide, blueSide, numJudges, numRounds, onResetBattle, judgeNames, eventTitle, eventSubtitle, battleType, bgColor, bgImage, initialTeamAImage, initialTeamBImage }) => {
   const [currentRound, setCurrentRound] = useState(1);
   const [judgeVotes, setJudgeVotes] = useState<JudgeVote>({});
   const [redWins, setRedWins] = useState(0);
   const [blueWins, setBlueWins] = useState(0);
   const [showResults, setShowResults] = useState(false);
   const [logoImage, setLogoImage] = useState<string | null>(null);
-  const [teamAImage, setTeamAImage] = useState<string | null>(null);
-  const [teamBImage, setTeamBImage] = useState<string | null>(null);
+  const [teamAImage, setTeamAImage] = useState<string | null>(initialTeamAImage);
+  const [teamBImage, setTeamBImage] = useState<string | null>(initialTeamBImage);
   const [teamAName, setTeamAName] = useState(redSide);
   const [teamBName, setTeamBName] = useState(blueSide);
 
@@ -44,12 +51,14 @@ const BattleArena: React.FC<BattleArenaProps> = ({ redSide, blueSide, numJudges,
   useEffect(() => {
     setTeamAName(redSide);
     setTeamBName(blueSide);
+    setTeamAImage(initialTeamAImage); // Sync with prop updates
+    setTeamBImage(initialTeamBImage); // Sync with prop updates
     setRedWins(0); // Reset scores on new battle
     setBlueWins(0); // Reset scores on new battle
     setOverallWinner(null); // Reset overall winner
     setCurrentRound(1); // Reset current round
     setShowResults(false); // Reset show results
-  }, [redSide, blueSide, numJudges, numRounds]); // Depend on all battle setup props
+  }, [redSide, blueSide, numJudges, numRounds, initialTeamAImage, initialTeamBImage]); // Depend on all battle setup props
 
   const handleJudgeVote = (judgeId: number, vote: 'red' | 'blue' | 'tie') => {
     setJudgeVotes((prevVotes) => {
@@ -165,12 +174,13 @@ const BattleArena: React.FC<BattleArenaProps> = ({ redSide, blueSide, numJudges,
         onTeamANameChange={setTeamAName}
         onTeamBNameChange={setTeamBName}
         winner={overallWinner === 'red' ? 'A' : overallWinner === 'blue' ? 'B' : null}
-        logoImage={logoImage}
         teamAImage={teamAImage}
         teamBImage={teamBImage}
-        onLogoImageChange={setLogoImage}
-        onTeamAImageChange={setTeamAImage}
-        onTeamBImageChange={setTeamBImage}
+        eventTitle={eventTitle}
+        eventSubtitle={eventSubtitle}
+        battleType={battleType}
+        bgColor={bgColor}
+        bgImage={bgImage}
       />
 
       <main className="flex-1 flex flex-col items-center justify-center p-4">
